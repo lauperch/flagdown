@@ -1,19 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-
 	"github.com/julienschmidt/httprouter"
 )
 
-func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
-}
-
 func main() {
+	const dbpath = "globego.db"
+	db = initDB(dbpath)
+	defer db.Close()
+	CreateTable(db)
+
+
+	go GetTweets()
+
 	router := httprouter.New()
-	router.GET("/", indexHandler)
+	http.Handle("/img", http.FileServer(http.Dir("./templates/img")))
+	router.GET("/", IndexHandler)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

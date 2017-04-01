@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+      function initialize() {
+        /*
+        var earth = new WE.map('earth_div');
+        WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(earth);
+        */
+
+        var options = {
+          sky: true,
+          atmosphere: true,
+          dragging: true,
+          tilting: true,
+          zooming: false,
+          center: [46.8011, 8.2266],
+          zoom: 2
+        };
+        earth = new WE.map('earth_div', options);
+        var natural = WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          tms: true
+        });
+        natural.addTo(earth);
+
+        var toner = WE.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+          attribution: 'Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.',
+          opacity: 0.6
+        });
+        toner.addTo(earth);
+        {{range .data}}
+
+          {{if eq .Sent 0}}
+          var marker = WE.marker([{{.Lat}}, {{.Lng}}], "https://cdn4.iconfinder.com/data/icons/reaction/32/shy-16.png", 16, 16).addTo(earth)
+          marker.bindPopup("<b>"+{{.Author}}+"</b>"+"<p>"+{{.Body}}+"</p><p>" + {{.Timestamp}} +  "</p>");
+          {{else}}
+          var marker = WE.marker([{{.Lat}}, {{.Lng}}], "https://cdn4.iconfinder.com/data/icons/reaction/32/sad-16.png", 16, 16).addTo(earth)
+          marker.bindPopup("<b>"+{{.Author}}+"</b>"+"<p>"+{{.Body}}+"</p><p>" + {{.Timestamp}} +  "</p>");
+          {{end}}
+        {{end}}
+      }
+    </script>
+    <style>
+      html, body{padding: 0; margin: 0;}
+      #earth_div{top: 0; right: 0; bottom: 0; left: 0; position: absolute !important;}
+    </style>
+    <title>GlobeGo</title>
+  </head>
+
+  <body onload="initialize()">
+    <div class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">GlobeGo</a>
+      </div>
+    		<form class="navbar-form navbar-center" role="search">
+    		<div class="input-group">
+    			<input type="text" class="form-control" placeholder="Search" name="searchTerm" id="srch-term">
+    			<div class="input-group-btn">
+    				<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+    			</div>
+    		</div>
+    		</form>
+
+    	</div>
+
+
+    <div id="earth_div"></div>
+
+
+    <style>
+    .navbar-center
+    {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      margin: auto;
+    }
+    </style>
+
+
+  </body>
+</html>
