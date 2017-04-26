@@ -7,9 +7,9 @@ import (
 )
 
 func GetTweets() {
-  anaconda.SetConsumerKey("")
-  anaconda.SetConsumerSecret("")
-  api := anaconda.NewTwitterApi("", "")
+  anaconda.SetConsumerKey("86xjjpfHNFinjo2FcUF0sP0SH")
+  anaconda.SetConsumerSecret("k1mxnOinS9CANchVRPt3sHZkNRajjh2bfMGFwDOS4pjOPRNlzY")
+  api := anaconda.NewTwitterApi("62061676-OuYLpxWpmuRlLooOWMDdmh4Tai4Nu14xyBY3qFLEs", "RTMLo3f2f7uhT1rwziKjywJPabAlAUL4N6uBNa3yirG18")
 
   model, _ := sentiment.Train()
 
