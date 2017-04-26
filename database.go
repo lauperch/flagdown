@@ -85,7 +85,7 @@ func StoreTweet(db *sql.DB, tweet m.Tweet, sent uint8) {
 func ReadTweets(db *sql.DB, st string) []TweetAbstr {
 	var result []TweetAbstr
   sqlRead := `
-  SELECT * FROM tweets WHERE datetime(timestamp) >= DATE('now') INTERVAL 1 DAY;
+  SELECT * FROM tweets WHERE timestamp >= datetime('now','-1 day')
   `
 
   rows, err := db.Query(sqlRead)
